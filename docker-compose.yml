@@ -1,0 +1,20 @@
+version: "3"
+services:
+  prometheus:
+    networks:
+      - dokploy-network
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.${HASH}.rule=Host(`${PROMETHEUS_HOST}`)
+      - traefik.http.services.${HASH}.loadbalancer.server.port=9090
+    volumes:
+      - prometheus-data:/prometheus
+      - prometheus-config:/etc/prometheus
+networks:
+  dokploy-network:
+    external: true
+volumes:
+  prometheus-data: {}
+  prometheus-config: {}
