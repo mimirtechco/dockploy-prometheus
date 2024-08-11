@@ -1,6 +1,8 @@
 version: "3"
 services:
   prometheus:
+    expose:
+      - 9090
     networks:
       - dokploy-network
     image: prom/prometheus:latest
